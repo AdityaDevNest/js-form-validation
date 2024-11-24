@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <!-- Link to Bootstrap CSS for styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <style>
+        body {
+    background-color: #f7f7f7;
+}
+
+.container {
+    max-width: 500px;
+    background-color: lightgreen;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+    </style>
+    <div class="container mt-5">
+        <h2>Registration Form</h2>
+        <form id="registrationForm">
+            <!-- Full Name -->
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" class="form-control" id="fullName" placeholder="Enter your full name">
+                <small id="nameError" class="form-text text-danger"></small>
+            </div>
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                <small id="emailError" class="form-text text-danger"></small>
+            </div>
+            <!-- Phone Number -->
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter your phone number">
+                <small id="phoneError" class="form-text text-danger"></small>
+            </div>
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter a strong password">
+                <small id="passwordError" class="form-text text-danger"></small>
+            </div>
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Re-enter password">
+                <small id="confirmPasswordError" class="form-text text-danger"></small>
+            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+    <script>
+        // script.js
+document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from submitting
+
+    // Get all form values
+    const fullName = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phoneNumber = document.getElementById('phoneNumber').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+    // Clear error messages before validation
+    clearErrors();
+
+    // Validation status
+    let isValid = true;
+
+    // Full Name validation (at least 5 characters)
+    if (fullName.length < 5) {
+        showError('nameError', 'Name must be at least 5 characters long');
+        isValid = false;
+    }
+
+    // Email validation (must contain '@')
+    if (!email.includes('@')) {
+        showError('emailError', 'Please enter a valid email address');
+        isValid = false;
+    }
+
+    // Phone Number validation (must not be 1234567890 and must be a valid 10-digit number)
+    const phoneRegex = /^[0-9]{10}$/;
+    if (phoneNumber === '1234567890' || !phoneRegex.test(phoneNumber)) {
+        showError('phoneError', 'Please enter a valid 10-digit phone number');
+        isValid = false;
+    }
+
+    // Password validation (at least 8 characters, not 'password' or the user's name)
+    if (password.length < 8 || password.toLowerCase() === 'password' || password.toLowerCase() === fullName.toLowerCase()) {
+        showError('passwordError', 'Password must be at least 8 characters long and not "password" or your name');
+        isValid = false;
+    }
+
+    // Confirm Password validation (must match password)
+    if (password !== confirmPassword) {
+        showError('confirmPasswordError', 'Passwords do not match');
+        isValid = false;
+    }
+
+    // If all fields are valid, submit the form
+    if (isValid) {
+        alert('Form submitted successfully!');
+        // You can send the form data to the server here
+    }
+});
+
+// Function to display error messages
+function showError(fieldId, message) {
+    document.getElementById(fieldId).textContent = message;
+}
+
+// Function to clear all error messages
+function clearErrors() {
+    document.getElementById('nameError').textContent = '';
+    document.getElementById('emailError').textContent = '';
+    document.getElementById('phoneError').textContent = '';
+    document.getElementById('passwordError').textContent = '';
+    document.getElementById('confirmPasswordError').textContent = '';
+}
+</script>
+ 
+
+</body>
+</html>
